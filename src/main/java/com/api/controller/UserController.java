@@ -41,9 +41,12 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(id, user));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{userName}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
+        //Фильтруем список пользователей по имени с учетом null и удаляем всех найденных пользователей
+        userService.getAllUsers().stream()
+                .filter(x -> x.getName() != null && x.getName().equals(userName)) // Проверка на null и фильтрация по имени
+                .forEach(user -> userService.deleteUser(user.getId())); // Удаляем всех пользователей, удовлетворяющих фильтру
         return ResponseEntity.noContent().build();
     }
 }
