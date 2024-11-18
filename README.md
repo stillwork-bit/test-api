@@ -14,7 +14,7 @@ services:
       - POSTGRES_PASSWORD=postgress
       - POSTGRES_DB=postgres
     ports:
-      - "5433:5432" - "5433:5432"
+      - "5433:5432"
 ```
 2.Создайте БД userdb
 ```sql
