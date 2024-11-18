@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "4690e6af-e03c-4c5b-b096-2fb7e1850b0c",
+		"name": "TestAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Option,PreRequest,Test",
+			"item": [
+				{
+					"name": "Collection",
+					"item": [
+						{
+							"name": "Get all users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Проверка статус-кода\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}{{port}}/api/users",
+									"host": [
+										"{{url}}{{port}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Проверка статус-кода\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}{{port}}/api/users/80",
+									"host": [
+										"{{url}}{{port}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"80"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post new user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let user_request = JSON.parse(pm.request.body.raw);\r",
+											"let user_response = pm.response.json();\r",
+											"\r",
+											"console.log(\"Request JSON:\", user_request)\r",
+											"console.log(\"Response JSON:\", user_response)\r",
+											"\r",
+											"// Проверка статус-кода\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Удаление тестового пользователя\", function () {\r",
+											"    pm.sendRequest(pm.globals.get('deleteUserOption'), function (err, res) {\r",
+											"        pm.expect(res.code).to.equal(204)\r",
+											"    });\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{user_email}}\",\r\n    \"name\": \"{{user_name}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{port}}/api/users",
+									"host": [
+										"{{url}}{{port}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put update user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let user_request = JSON.parse(pm.request.body.raw);\r",
+											"let user_response = pm.response.json();\r",
+											"\r",
+											"console.log(\"Request JSON:\", user_request)\r",
+											"console.log(\"Response JSON:\", user_response)\r",
+											"\r",
+											"// Проверка статус-кода\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Удаление тестового пользователя\", function () {\r",
+											"    pm.sendRequest(pm.globals.get('deleteUserOption'), function (err, res) {\r",
+											"        pm.expect(res.code).to.equal(204)\r",
+											"    });\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.test(\"Создание тестового пользователя\", function () {\r",
+											"    pm.sendRequest(pm.globals.get('createUserOption'), function (err, res) {\r",
+											"        pm.expect(res.code).to.equal(200);\r",
+											"        let responsePrePrequestJson = JSON.parse(JSON.stringify(res.json()));\r",
+											"        let id_user = responsePrePrequestJson.id;\r",
+											"        pm.collectionVariables.set(\"responsePrePrequestJson\", responsePrePrequestJson);\r",
+											"        pm.collectionVariables.set(\"id_user\", id_user);\r",
+											"\r",
+											"        \r",
+											"        console.log(\"ResponsePrePrequestJson JSON:\", responsePrePrequestJson)\r",
+											"        console.log(\"ID USER :\", id_user)\r",
+											"    });\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{user_email_update}}\",\r\n    \"name\": \"{{user_name_update}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{port}}/api/users/{{id_user}}",
+									"host": [
+										"{{url}}{{port}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{id_user}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete delete user",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.test(\"Создание тестового пользователя\", function () {\r",
+											"    pm.sendRequest(pm.globals.get('createUserOption'), function (err, res) {\r",
+											"        pm.expect(res.code).to.equal(200);\r",
+											"        \r",
+											"        let responsePrePrequestJson = JSON.parse(JSON.stringify(res.json()));\r",
+											"       \r",
+											"        pm.collectionVariables.set(\"responsePrePrequestJson\", responsePrePrequestJson);\r",
+											"       \r",
+											"        console.log(\"ResponsePrePrequestJson JSON:\", responsePrePrequestJson)\r",
+											"    });\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Проверка статус-кода\r",
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}{{port}}/api/users/{{user_name}}",
+									"host": [
+										"{{url}}{{port}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"{{user_name}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"console.log(\"Running: \"+ pm.info.requestName); "
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//---------------------------------------------------------------------------------------",
+							"//Создание user",
+							"let createUserOption = {",
+							"    url: pm.environment.get('url') + pm.environment.get('port') + \"/api/users\",",
+							"    method: 'POST',",
+							"    header: { ",
+							"        'content-type': 'application/json'",
+							"    },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({",
+							"    \"email\": pm.environment.get('user_email'),",
+							"    \"name\": pm.environment.get('user_name')",
+							"})",
+							"    }",
+							"};",
+							"pm.globals.set('createUserOption', createUserOption);",
+							"//---------------------------------------------------------------------------------------",
+							"//Удаление user",
+							"let deleteUserOption = {",
+							"    url: pm.environment.get('url') + pm.environment.get('port') + \"/api/users/\"+pm.globals.get('user_name'),",
+							"    method: 'DELETE',",
+							"    header: { ",
+							"        'content-type': 'application/json'",
+							"    }",
+							"};",
+							"pm.globals.set('deleteUserOption', deleteUserOption);"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"function randInt(min, max) {",
+					"   return Math.round((Math.random() * Math.abs(max - min)) + min);",
+					"    return _.random(1, 1000);",
+					"}",
+					"",
+					"//--------------------------------",
+					"//Переменные для user",
+					"var user_name = \"user_name_\"+ randInt(1, 10000);",
+					"var user_email = \"user_email_\"+ randInt(1, 10000) + \"@test.com\";",
+					"",
+					"var user_name_update = \"user_name_update\"+ randInt(1, 10000);",
+					"var user_email_update = \"user_email_update_\"+ randInt(1, 10000) + \"@test.com\";",
+					"",
+					"pm.globals.set(\"user_name\", user_name);",
+					"pm.globals.set(\"user_email\", user_email);",
+					"pm.globals.set(\"user_name_update\", user_name_update);",
+					"pm.globals.set(\"user_email_update\", user_email_update);",
+					"",
+					"//Логирование переменных",
+					"if (\"debug\" == pm.environment.get(\"logLevel\")) {",
+					"    console.log(pm.globals.get('user_name'))",
+					"    console.log(pm.globals.get('user_email'))",
+					"    console.log(pm.globals.get('user_name_update'))",
+					"    console.log(pm.globals.get('user_email_update'))",
+					"}",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// pm.globals.clear()",
+					"// pm.collectionVariables.clear()"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id_user",
+			"value": ""
+		},
+		{
+			"key": "responsePrePrequestJson",
+			"value": ""
+		}
+	]
+}
